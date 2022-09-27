@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class CounterHomeScreen extends StatefulWidget {
   final String _title;
 
-  CounterHomeScreen({super.key, required String title}) : _title = title;
+  const CounterHomeScreen({super.key, required String title}) : _title = title;
 
+  @override
   CounterHomeScreenState createState() {
     return CounterHomeScreenState();
   }
@@ -21,18 +22,16 @@ class CounterHomeScreenState extends State<CounterHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('Calling build');
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print('Floating button pressed');
-          print(_counter++);
+          _increment();
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
       appBar: AppBar(
-        title: const Text('Meet Upper'),
+        title: Text(widget._title),
         centerTitle: true,
         elevation: 10,
         backgroundColor: Colors.green,
@@ -43,7 +42,7 @@ class CounterHomeScreenState extends State<CounterHomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Welcome to ${widget._title} let\'s increment numbers'),
+            Text('Welcome to ${widget._title}, let\'s increment numbers'),
             Text(
               'Counter: $_counter',
               style: const TextStyle(fontSize: 30),
