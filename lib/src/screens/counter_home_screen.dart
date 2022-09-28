@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:meeter_upper/src/screens/meetup_detail_screen.dart';
+
+import '../widgets/bottom_navigation.dart';
 
 class CounterHomeScreen extends StatefulWidget {
   final String _title;
@@ -24,11 +27,17 @@ class CounterHomeScreenState extends State<CounterHomeScreen> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: <Widget>[
             Text('Welcome to ${widget._title}, let\'s increment numbers'),
             Text(
               'Counter: $_counter',
               style: const TextStyle(fontSize: 30),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pushNamed(context, MeetupDetailScreen.route),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green, foregroundColor: Colors.red),
+              child: const Text('Go to Detail Screen'),
             ),
           ],
         ),
@@ -41,7 +50,7 @@ class CounterHomeScreenState extends State<CounterHomeScreen> {
         titleTextStyle: const TextStyle(
             color: Colors.red, fontSize: 30, fontWeight: FontWeight.bold),
       ),
-      bottomNavigationBar: _BottomNavigation(),
+      bottomNavigationBar: const BottomNavigation(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _increment();
@@ -53,37 +62,3 @@ class CounterHomeScreenState extends State<CounterHomeScreen> {
   }
 }
 
-class _BottomNavigation extends StatefulWidget {
-  @override
-  _BottomNavigationState createState() => _BottomNavigationState();
-}
-
-class _BottomNavigationState extends State<_BottomNavigation> {
-  int _currentIndex = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      currentIndex: _currentIndex,
-      onTap: (int index) {
-        setState(() => _currentIndex = index);
-      },
-      items: const [
-        BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-            backgroundColor: Colors.white),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-            backgroundColor: Colors.white),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-            backgroundColor: Colors.white),
-      ],
-      backgroundColor: Colors.grey,
-      showSelectedLabels: true,
-    );
-  }
-}
