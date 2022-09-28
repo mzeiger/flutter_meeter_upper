@@ -11,9 +11,8 @@ class MeetupperApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primarySwatch: Colors.blue),
-        home: CounterHomeScreen(title: appTitle,)
-    );
+        home: CounterHomeScreen(
+          title: appTitle,
+        ));
   }
 }
-
-
