@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-
 import '../widgets/bottom_navigation.dart';
 
 class MeetupDetailScreen extends StatelessWidget {
   const MeetupDetailScreen({Key? key}) : super(key: key);
 
-  static const String route = 'meetupDetail';
+  static const String route = '/meetupDetail';
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:meeter_upper/src/screens/meetup_detail_screen.dart';
-
 import '../widgets/bottom_navigation.dart';
 
 class CounterHomeScreen extends StatefulWidget {
