@@ -29,22 +29,42 @@ class KiwanisScreenState extends State<KiwanisScreen> {
     });
   }
 
+  Widget cardTemplate(post) {
+    return Card(
+      margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+      child: Container(
+        decoration: const BoxDecoration(color: Color(0xFF444488),),
+        padding: const EdgeInsets.only(bottom: 10, left: 5, right: 5),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Text("${post['lastname']}, ${post['firstname']}",
+            style: const TextStyle(color: Colors.blue, fontSize: 30),),
+            Text("Spouse: ${post['cb_spousename']}",
+              style: const TextStyle(color: Colors.green, fontSize: 20),),
+            Text("${post['email']}",
+              style: const TextStyle(color: Colors.cyan, fontSize: 20),),
+            Text("${post['cb_address']}",
+              style: const TextStyle(color: Colors.blue, fontSize: 20),),
+            Text("${post['cb_city']}, ${post['cb_state']} ${post['cb_zipcode']}",
+              style: const TextStyle(color: Colors.blue, fontSize: 20),),
+            Text("Home Phone:  ${post['cb_homephone']}",
+              style: const TextStyle(color: Colors.blue, fontSize: 20),),
+            Text("Cell Phone: ${post['cb_mobilephone']}",
+              style: const TextStyle(color: Colors.blue, fontSize: 20),),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-          children: _posts.map((post) {
-            return ListTile(
-              leading: Text(post['lastname'].toString()),
-              title: Text(post['firstname']),
-              subtitle: Text(post['cb_homephone']),
-            );
-          }).toList()),
-      /*
-      Could also be:
-      children: _posts.map((post) => ListTile( title: Text(...), subtitle: Text(...)  )).toList(),
-         // Note that "return" along with ";" is not needed in this type of notation
-       */
+        children: _posts.map((post) => cardTemplate(post)).toList(),
+      ),
+
       appBar: AppBar(
         title: const Text('Kiwanis Roster'),
         centerTitle: true,
