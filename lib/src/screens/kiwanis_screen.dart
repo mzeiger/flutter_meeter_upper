@@ -37,7 +37,6 @@ class KiwanisScreenState extends State<KiwanisScreen> {
       body: ListView(
         children: _posts.map((post) => cardTemplate(post)).toList(),
       ),
-
       appBar: AppBar(
         title: const Text('Kiwanis Roster'),
         centerTitle: true,
