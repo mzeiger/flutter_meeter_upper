@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:meeter_upper/src/screens/meetup_detail_screen.dart';
 import 'package:meeter_upper/src/screens/posts_screen.dart';
+import 'package:meeter_upper/src/state/app_state.dart';
 
-void main() => runApp(const MeetupperApp());
+void main() => runApp(const AppStore(child: MeetuperApp()));
 
-class MeetupperApp extends StatelessWidget {
-  const MeetupperApp({super.key});
-  final String appTitle = 'Meet Upper';
+class MeetuperApp extends StatelessWidget {
+  final String appTitle = 'Meetuper App';
+
+  const MeetuperApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(primarySwatch: Colors.blue),
-        //home: CounterHomeScreen(title: appTitle),
-        home: PostScreen(),
-        // home: const KiwanisScreenLB(),
-        routes: {
-          MeetupDetailScreen.route: (context) => const MeetupDetailScreen(),
-        }
 
+    return MaterialApp(
+      theme: ThemeData(primarySwatch: Colors.blue),
+      // home: CounterHomeScreen(title: appTitle),
+      home: PostScreen(),
+      routes: {
+        MeetupDetailScreen.route: (context) => const MeetupDetailScreen()
+      },
     );
   }
 }
+
+
+
