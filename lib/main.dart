@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:meeter_upper/src/screens/counter_home_screen.dart';
 import 'package:meeter_upper/src/screens/meetup_detail_screen.dart';
 import 'package:meeter_upper/src/screens/posts_screen.dart';
-import 'src/screens/kiwanis_screen_lb.dart';
 
 void main() => runApp(const MeetupperApp());
 
@@ -15,8 +13,8 @@ class MeetupperApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primarySwatch: Colors.blue),
         //home: CounterHomeScreen(title: appTitle),
-        // home: PostScreen(),
-        home: const KiwanisScreenLB(),
+        home: PostScreen(),
+        // home: const KiwanisScreenLB(),
         routes: {
           MeetupDetailScreen.route: (context) => const MeetupDetailScreen(),
         }

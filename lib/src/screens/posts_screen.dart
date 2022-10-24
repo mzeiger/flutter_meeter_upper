@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
-import '../widgets/bottom_navigation.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:meeter_upper/src/models/post.dart';
+import 'package:meeter_upper/src/widgets/bottom_navigation.dart';
+import 'package:faker/faker.dart';
+import 'package:meeter_upper/services/post_api_provider.dart';
 
 class PostScreen extends StatefulWidget {
-  const PostScreen({super.key});
+  final PostApiProvider _api = PostApiProvider();
 
-  @override // arrow function always returns
+  PostScreen({super.key});
+
+  @override
   PostScreenState createState() => PostScreenState();
 }
 
 class PostScreenState extends State<PostScreen> {
-  List<dynamic> _posts = [];
+  List<Post> _posts = [];
 
   @override
   void initState() {
@@ -19,46 +22,79 @@ class PostScreenState extends State<PostScreen> {
     _fetchPosts();
   }
 
-  void _fetchPosts() {
-    http
-        .get(Uri.parse('https://jsonplaceholder.typicode.com/posts'))
-        .then((res) {
-      // res.body is a String. json.decode changes it to objects
-      final posts = json.decode(res.body);
-      setState(() => _posts = posts);
-    });
+  _fetchPosts() async {
+    List<Post> posts = await widget._api.fetchPosts();
+    setState(() => _posts = posts);
+  }
+
+  _addPost() {
+    final id = faker.randomGenerator.integer(9999);
+    final title = faker.food.dish();
+    final body = faker.food.cuisine();
+    final newPost = Post(title: title, body: body, id: id);
+
+    setState(() => _posts.add(newPost));
   }
 
   @override
   Widget build(BuildContext context) {
+    return _InheritedPost(posts: _posts, createPost: _addPost, child: _PostList());
+  }
+}
+
+class _InheritedPost extends InheritedWidget {
+  final Widget child;
+  final List<Post> posts;
+  final Function createPost;
+
+  const _InheritedPost(
+      {required this.child, required this.posts, required this.createPost})
+      : super(child: child);
+
+  @override
+  bool updateShouldNotify(InheritedWidget oldWidget) => true;
+
+  static of(BuildContext context) {
+    return (context.dependOnInheritedWidgetOfExactType<_InheritedPost>()
+        as _InheritedPost);
+  }
+}
+
+class _PostList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final posts =
+        (context.dependOnInheritedWidgetOfExactType<_InheritedPost>() as _InheritedPost)
+            .posts;
+
     return Scaffold(
-      body: ListView(
-          children: _posts.map((post) {
-            return ListTile(
-              leading: Text(post['id'].toString()),
-              title: Text(post['title']),
-              subtitle: Text(post['body']),
-            );
-      }).toList()),
-      /*
-      Could also be:
-      children: _posts.map((post) => ListTile( title: Text(...), subtitle: Text(...)  )).toList(),
-         // Note that "return" along with ";" is not needed in this type of notation
-       */
-      appBar: AppBar(
-        title: const Text('Posts'),
-        centerTitle: true,
-        elevation: 10,
-        backgroundColor: Colors.green,
-        titleTextStyle: const TextStyle(
-            color: Colors.red, fontSize: 30, fontWeight: FontWeight.bold),
+      body: ListView.builder(
+        itemCount: posts.length * 2,
+        itemBuilder: (BuildContext context, int i) {
+          if (i.isOdd) {
+            return const Divider();
+          }
+
+          final index = i ~/ 2;
+
+          return ListTile(
+              title: Text(posts[index].title), subtitle: Text(posts[index].body));
+        },
       ),
       bottomNavigationBar: const BottomNavigation(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => {},
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: _PostButton(),
+      appBar: AppBar(title: const Text('Posts'), centerTitle: true),
+    );
+  }
+}
+
+class _PostButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: _InheritedPost.of(context).createPost,
+      tooltip: 'Add Post',
+      child: const Icon(Icons.add),
     );
   }
 }
