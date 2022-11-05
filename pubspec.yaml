@@ -34,6 +34,7 @@ dependencies:
   http: ^0.13.5
   intl: ^0.17.0
   faker:
+  scoped_model:
 
 
   # The following adds the Cupertino Icons font to your application.
